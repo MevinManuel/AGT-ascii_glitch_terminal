@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>🧬 ASCII GLITCH TERMINAL</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="glitch-overlay"></div>
+    <div class="terminal">
+        <div class="terminal-header">
+            <h1>🧬 ASCII GLITCH TERMINAL</h1>
+            <div class="terminal-controls">
+                <span class="control-dot"></span>
+                <span class="control-dot"></span>
+                <span class="control-dot"></span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="mode-selector">
+                <button class="mode-btn active" data-mode="upload">📁 Upload Image</button>
+                <button class="mode-btn" data-mode="webcam">📹 Live Webcam</button>
+            </div>
+
+            <div class="upload-section" id="uploadSection">
+                <form id="uploadForm" action="/" method="post" enctype="multipart/form-data">
+                    <div class="file-upload-container">
+                        <div class="file-upload-box" id="dropZone">
+                            <input type="file" name="image" id="fileInput" accept=".jpg,.jpeg,.png" hidden>
+                            <div class="upload-content">
+                                <div class="upload-icon">📁</div>
+                                <p>Drag & Drop your image here</p>
+                                <span class="upload-hint">or click to browse</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-grid">
+                        <div class="setting-group">
+                            <label class="label">🖼 Output Width</label>
+                            <div class="input-group">
+                                <input type="range" id="width" name="width" min="100" max="500" value="300" step="10">
+                                <span class="value-display" id="widthValue">300</span>
+                            </div>
+                        </div>
+
+                        <div class="setting-group">
+                            <label class="label">✨ Contrast</label>
+                            <div class="input-group">
+                                <input type="range" id="contrast" name="contrast" min="0.5" max="3.0" value="1.8" step="0.1">
+                                <span class="value-display" id="contrastValue">1.8</span>
+                            </div>
+                        </div>
+
+                        <div class="setting-group">
+                            <label class="label">🔪 Sharpness</label>
+                            <div class="input-group">
+                                <input type="range" id="sharpness" name="sharpness" min="0.5" max="3.0" value="1.5" step="0.1">
+                                <span class="value-display" id="sharpnessValue">1.5</span>
+                            </div>
+                        </div>
+
+                        <div class="setting-group">
+                            <label class="label">🌓 Invert Colors</label>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="invert" name="invert" value="true">
+                                <label for="invert"></label>
+                            </div>
+                        </div>
+
+                        <div class="setting-group">
+                            <label class="label">🎞 CRT Effect</label>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="crt" name="crt" value="true">
+                                <label for="crt"></label>
+                            </div>
+                        </div>
+
+                        <div class="setting-group" id="crtIntensityGroup">
+                            <label class="label">📡 CRT Intensity</label>
+                            <div class="input-group">
+                                <input type="range" id="crt_intensity" name="crt_intensity" min="0.1" max="2.0" value="1.0" step="0.1">
+                                <span class="value-display" id="crtIntensityValue">1.0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="generate-btn">
+                        <span class="btn-content">
+                            <span class="btn-icon">⚡</span>
+                            <span class="btn-text">Generate ASCII Art</span>
+                        </span>
+                    </button>
+                </form>
+            </div>
+
+            <div class="webcam-section" id="webcamSection" style="display: none;">
+                <div class="webcam-container">
+                    <video id="webcam" autoplay playsinline></video>
+                    <canvas id="webcamCanvas" style="display: none;"></canvas>
+                </div>
+                <div class="webcam-controls">
+                    <button id="startWebcam" class="action-btn">
+                        <span class="btn-icon">📹</span>
+                        <span class="btn-text">Start Webcam</span>
+                    </button>
+                    <button id="stopWebcam" class="action-btn" style="display: none;">
+                        <span class="btn-icon">⏹</span>
+                        <span class="btn-text">Stop Webcam</span>
+                    </button>
+                    <button id="captureFrame" class="action-btn" style="display: none;">
+                        <span class="btn-icon">📸</span>
+                        <span class="btn-text">Capture Frame</span>
+                    </button>
+                </div>
+                <div class="settings-grid">
+                    <div class="setting-group">
+                        <label class="label">🖼 Output Width</label>
+                        <div class="input-group">
+                            <input type="range" id="webcamWidth" min="100" max="500" value="300" step="10">
+                            <span class="value-display" id="webcamWidthValue">300</span>
+                        </div>
+                    </div>
+                    <div class="setting-group">
+                        <label class="label">✨ Contrast</label>
+                        <div class="input-group">
+                            <input type="range" id="webcamContrast" min="0.5" max="3.0" value="1.8" step="0.1">
+                            <span class="value-display" id="webcamContrastValue">1.8</span>
+                        </div>
+                    </div>
+                    <div class="setting-group">
+                        <label class="label">🌓 Invert Colors</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="webcamInvert">
+                            <label for="webcamInvert"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="preview-section" id="previewSection" style="display: none;">
+                <div class="preview-header">
+                    <h2>Generated ASCII Art</h2>
+                    <div class="preview-actions">
+                        <a id="download-btn" class="action-btn download-btn" style="display: none;">
+                            <span class="btn-icon">📥</span>
+                            <span class="btn-text">Download</span>
+                        </a>
+                        <button onclick="copyToClipboard()" class="action-btn copy-btn">
+                            <span class="btn-icon">📋</span>
+                            <span class="btn-text">Copy</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="preview-content">
+                    <pre id="asciiOutput"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mode switching
+        const modeBtns = document.querySelectorAll('.mode-btn');
+        const uploadSection = document.getElementById('uploadSection');
+        const webcamSection = document.getElementById('webcamSection');
+
+        modeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                modeBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                if (btn.dataset.mode === 'upload') {
+                    uploadSection.style.display = 'block';
+                    webcamSection.style.display = 'none';
+                    stopWebcamStream();
+                } else {
+                    uploadSection.style.display = 'none';
+                    webcamSection.style.display = 'block';
+                }
+            });
+        });
+
+        // File upload handling
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const previewSection = document.getElementById('previewSection');
+        const asciiOutput = document.getElementById('asciiOutput');
+        const downloadBtn = document.getElementById('download-btn');
+        const crtCheckbox = document.getElementById('crt');
+        const crtIntensityGroup = document.getElementById('crtIntensityGroup');
+
+        // Handle file selection
+        dropZone.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', handleFileSelect);
+
+        // Handle drag and drop
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length) {
+                fileInput.files = files;
+                handleFileSelect();
+            }
+        });
+
+        function handleFileSelect() {
+            const file = fileInput.files[0];
+            if (file) {
+                dropZone.classList.add('has-file');
+                dropZone.querySelector('p').textContent = file.name;
+            }
+        }
+
+        // Update range input values
+        document.querySelectorAll('input[type="range"]').forEach(input => {
+            const valueDisplay = document.getElementById(input.id + 'Value');
+            input.addEventListener('input', () => {
+                valueDisplay.textContent = input.value;
+            });
+        });
+
+        // Toggle CRT intensity control
+        crtCheckbox.addEventListener('change', () => {
+            crtIntensityGroup.style.display = crtCheckbox.checked ? 'block' : 'none';
+        });
+
+        // Form submission
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const data = new FormData(form);
+
+            try {
+                const response = await fetch('/', {
+                    method: 'POST',
+                    body: data
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const json = await response.json();
+                asciiOutput.textContent = json.text_art;
+                downloadBtn.href = json.download_url;
+                downloadBtn.style.display = 'inline-flex';
+                previewSection.style.display = 'block';
+                previewSection.scrollIntoView({ behavior: 'smooth' });
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while processing the image.');
+            }
+        });
+
+        // Copy to clipboard
+        function copyToClipboard() {
+            const text = asciiOutput.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const copyBtn = document.querySelector('.copy-btn');
+                copyBtn.classList.add('copied');
+                setTimeout(() => copyBtn.classList.remove('copied'), 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+
+        // Webcam handling
+        const webcam = document.getElementById('webcam');
+        const webcamCanvas = document.getElementById('webcamCanvas');
+        const startWebcamBtn = document.getElementById('startWebcam');
+        const stopWebcamBtn = document.getElementById('stopWebcam');
+        const captureFrameBtn = document.getElementById('captureFrame');
+        let stream = null;
+        let animationFrameId = null;
+
+        startWebcamBtn.addEventListener('click', async () => {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        width: { ideal: 640 },
+                        height: { ideal: 480 }
+                    } 
+                });
+                webcam.srcObject = stream;
+                startWebcamBtn.style.display = 'none';
+                stopWebcamBtn.style.display = 'inline-flex';
+                captureFrameBtn.style.display = 'inline-flex';
+                startWebcamCapture();
+            } catch (err) {
+                console.error('Error accessing webcam:', err);
+                alert('Could not access webcam. Please make sure you have granted permission.');
+            }
+        });
+
+        stopWebcamBtn.addEventListener('click', () => {
+            stopWebcamStream();
+        });
+
+        captureFrameBtn.addEventListener('click', () => {
+            captureAndProcessFrame();
+        });
+
+        function stopWebcamStream() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                webcam.srcObject = null;
+                stream = null;
+            }
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+            startWebcamBtn.style.display = 'inline-flex';
+            stopWebcamBtn.style.display = 'none';
+            captureFrameBtn.style.display = 'none';
+        }
+
+        function startWebcamCapture() {
+            const ctx = webcamCanvas.getContext('2d');
+            const width = parseInt(document.getElementById('webcamWidth').value);
+            const contrast = parseFloat(document.getElementById('webcamContrast').value);
+            const invert = document.getElementById('webcamInvert').checked;
+
+            function processFrame() {
+                if (!stream) return;
+
+                // Set canvas size
+                webcamCanvas.width = width;
+                webcamCanvas.height = width * (webcam.videoHeight / webcam.videoWidth);
+
+                // Draw and process frame
+                ctx.drawImage(webcam, 0, 0, webcamCanvas.width, webcamCanvas.height);
+                const imageData = ctx.getImageData(0, 0, webcamCanvas.width, webcamCanvas.height);
+                const ascii = convertToAscii(imageData, width, contrast, invert);
+                
+                // Update preview
+                asciiOutput.textContent = ascii;
+                previewSection.style.display = 'block';
+
+                animationFrameId = requestAnimationFrame(processFrame);
+            }
+
+            processFrame();
+        }
+
+        function captureAndProcessFrame() {
+            const ctx = webcamCanvas.getContext('2d');
+            const width = parseInt(document.getElementById('webcamWidth').value);
+            const contrast = parseFloat(document.getElementById('webcamContrast').value);
+            const invert = document.getElementById('webcamInvert').checked;
+
+            // Set canvas size
+            webcamCanvas.width = width;
+            webcamCanvas.height = width * (webcam.videoHeight / webcam.videoWidth);
+
+            // Draw and process frame
+            ctx.drawImage(webcam, 0, 0, webcamCanvas.width, webcamCanvas.height);
+            const imageData = ctx.getImageData(0, 0, webcamCanvas.width, webcamCanvas.height);
+            const ascii = convertToAscii(imageData, width, contrast, invert);
+            
+            // Update preview
+            asciiOutput.textContent = ascii;
+            previewSection.style.display = 'block';
+            previewSection.scrollIntoView({ behavior: 'smooth' });
+
+            // Create download link
+            const blob = new Blob([ascii], { type: 'text/plain' });
+            downloadBtn.href = URL.createObjectURL(blob);
+            downloadBtn.download = 'ascii-art.txt';
+            downloadBtn.style.display = 'inline-flex';
+        }
+
+        function convertToAscii(imageData, width, contrast, invert) {
+            const chars = ' .\'`^",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$';
+            const pixels = imageData.data;
+            let ascii = '';
+            
+            for (let y = 0; y < imageData.height; y++) {
+                for (let x = 0; x < imageData.width; x++) {
+                    const i = (y * imageData.width + x) * 4;
+                    const r = pixels[i];
+                    const g = pixels[i + 1];
+                    const b = pixels[i + 2];
+                    
+                    // Calculate brightness with contrast adjustment
+                    let brightness = (r + g + b) / 3;
+                    brightness = ((brightness - 128) * contrast) + 128;
+                    brightness = Math.max(0, Math.min(255, brightness));
+                    
+                    if (invert) {
+                        brightness = 255 - brightness;
+                    }
+                    
+                    const charIndex = Math.floor((brightness / 255) * (chars.length - 1));
+                    ascii += chars[charIndex];
+                }
+                ascii += '\n';
+            }
+            
+            return ascii;
+        }
+    </script>
+</body>
+</html>
