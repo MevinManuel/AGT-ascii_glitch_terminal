@@ -1,4 +1,4 @@
-# 🧬 Glitch ASCII Art Generator
+# 🧬AGT - Glitch ASCII Art Generator
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
 ![Flask](https://img.shields.io/badge/Flask-Web_App-lightgrey)
@@ -15,7 +15,11 @@
 <div align="center">
   <img src="9.jpg" width="700" alt="Image to ASCII Upload Demo"/>
   <br><br>
-  <img src="8.jpg" width="700" alt="Live Webcam ASCII Art"/>
+  <img src="8.jpg" width="700" alt="image to ascii"/>
+  <br><br>
+  <img src="7.jpg" width="700" alt="Live Webcam ASCII Art"/>
+  <br><br>
+  <img src="6.jpg" width="700" alt="Live Webcam ASCII Art"/>
 </div>
 
 ---
