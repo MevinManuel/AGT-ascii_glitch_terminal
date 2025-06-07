@@ -13,9 +13,9 @@
 ## 🌈 Demo Preview
 
 <div align="center">
-  <img src="assets/demo-upload.png" width="700" alt="Image to ASCII Upload Demo"/>
+  <img src="9.jpg" width="700" alt="Image to ASCII Upload Demo"/>
   <br><br>
-  <img src="assets/demo-livecam.gif" width="700" alt="Live Webcam ASCII Art"/>
+  <img src="8.jpg" width="700" alt="Live Webcam ASCII Art"/>
 </div>
 
 ---
@@ -39,27 +39,27 @@
 
 ---
 
-## 🛠 Tech Stack <br>
+## 🛠 Tech Stack
 
-| Frontend         | Backend           | Others            | <br>
-|------------------|-------------------|-------------------| <br>
-| HTML, CSS (Retro) | Flask (Python)    | OpenCV, Pillow    | <br>
-| Vanilla JS       | PIL for image ops | ASCII Mapping / Filters | <br>
+| Frontend         | Backend           | Others            |
+|------------------|-------------------|-------------------|
+| HTML, CSS (Retro) | Flask (Python)    | OpenCV, Pillow    |
+| Vanilla JS       | PIL for image ops | ASCII Mapping / Filters |
 
 ---
 
 ## 📂 Folder Structure <br>
 
-glitch-ascii/
-├── app.py
-├── text_dither_art.py
-├── templates/
-│ └── index.html
-├── static/
-│ └── style.css
-├── uploads/
-├── output/
-└── assets/
+glitch-ascii/ <br>
+├── app.py <br>
+├── text_dither_art.py <br>
+├── templates/ <br>
+│ └── index.html <br>
+├── static/ <br>
+│ └── style.css <br>
+├── uploads/ <br>
+├── output/ <br>
+└── assets/ <br>
 
 
 ---
@@ -69,8 +69,8 @@ glitch-ascii/
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/yourusername/glitch-ascii-art.git
-cd glitch-ascii-art
+git clone https://github.com/Mevinmanuel/AGT-ascii_glitch_terminal.git
+cd AGT-ascii_glitch_terminal
 ```
 
 2. Install requirements
@@ -97,34 +97,14 @@ Open your browser and go to http://localhost:5000
 | `crt_intensity` | Float  | Strength of CRT effect (default: 1.0) |
 
 
-🧠 How It Works
-For images:
 
-Convert to grayscale
-
-Resize based on terminal width
-
-Enhance contrast & sharpness
-
-Map brightness levels to ASCII characters
-
-(Optional) Apply CRT glitch effect
-
-For webcam:
-
-Use OpenCV to grab frames
-
-Transform to ASCII in real-time
-
-Display in live terminal stream
-
-💡 Ideas to Extend
-🧬 AI/ML-based ASCII generator using Vision Transformers
+💡 Ideas to Extend <br>
+🧬 AI/ML-based ASCII generator using Vision Transformers<br>
 
 🌐 Deploy on Vercel + FastAPI or Render
-
-📜 License
+<br><br>
+📜 License<br>
 MIT License. Feel free to fork and remix this project!
-
-👨‍💻 Author
+<br><br>
+👨‍💻 Author<br>
 Made with glitchy love by Your Mevin Manuel
